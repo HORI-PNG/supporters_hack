@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>データ集計グラフ</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <h1>データ集計ツール</h1>
+    <input type="file" id="select_file" accept=".csv, .xlsx">
+    <button onclick="uploadData()">集計してグラフ表示</button>
+
+    <div style="width: 80%; margin: 20px auto;">
+        <!-- Chart.jsは <canvas> タグの中にグラフを描画します。 -->
+        <canvas id="students_total_chart"></canvas>
+        <canvas id="parents_total_chart"></canvas>
+        <canvas id="satisfaction_chart"></canvas>
+        <canvas id="satisfaction_students_chart"></canvas>
+        <canvas id="satisfaction_parents_chart"></canvas>
+        <canvas id="fell_time_chart"></canvas>
+        <canvas id="fell_time_students_chart"></canvas>
+        <canvas id="fell_time_parents_chart"></canvas>
+    </div>
+
+    <script src="/static/main.js"></script>
+</body>
+</html>
