@@ -5,7 +5,7 @@ import numpy as np # NaN判定をより確実にするために追加
 
 app = Flask(__name__,
             template_folder='../../templates',
-            static_folder='../../assets/js',
+            static_folder='../../assets',
             static_url_path='/static'
             )
 CORS(app)
