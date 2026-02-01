@@ -1,4 +1,8 @@
-body { margin: 0; font-family: sans-serif; background-color: #f0f2f5; }
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #f0f2f5;
+}
 
 .container { display: flex; height: 100vh; }
 
@@ -13,10 +17,22 @@ body { margin: 0; font-family: sans-serif; background-color: #f0f2f5; }
     gap: 30px;
 }
 
-.input-section label { display: block; font-weight: bold; margin-bottom: 10px; }
-.input-section input { width: 100%; padding: 8px; border: 1px solid #ccc; }
+.input-section label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.input-section input { width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
 
-.display-section { font-size: 18px; font-weight: bold; border-top: 1px solid #eee; padding-top: 20px; }
+.display-section { 
+    font-size: 18px;
+    font-weight: bold;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
 
 .btn-primary {
     background: #004471;

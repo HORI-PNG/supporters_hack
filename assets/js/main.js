@@ -17,6 +17,7 @@ async function uploadData() {
         const data = await response.json();
 
         if (data.status === 'success') {
+            document.getElementById('display-file_name').innerText = data.file_name;
             document.getElementById('display_students_total').innerText = data.students_total;
             document.getElementById('display_parents_total').innerText = data.parents_total;
 

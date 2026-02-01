@@ -61,7 +61,8 @@ def upload_file():
             'fell_time': float(fell_time) if pd.notna(fell_time) else 0.0,
             'fell_time_students': float(fell_time_students) if pd.notna(fell_time_students) else 0.0,
             'fell_time_parents': float(fell_time_parents) if pd.notna(fell_time_parents) else 0.0,
-            'data_sum': int(data_sum)
+            'data_sum': int(data_sum),
+            'file_name': filename
         }
         
         return jsonify({
