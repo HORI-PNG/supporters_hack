@@ -28,8 +28,8 @@ async function uploadData() {
             renderChart('chart4', '新入生ご本人様の満足度', ['平均'], [data.satisfaction_students]);
             renderChart('chart5', '保護者の方の満足度', ['平均'], [data.satisfaction_parents]);
             renderChart('chart6', '説明会の所要時間', ['平均'], [data.fell_time]);
-            renderChart('chart7', '新入生ご本人様の所要時間', ['平均'], [data.fell_time_students]);
-            renderChart('chart8', '保護者の方の所要時間', ['平均'], [data.fell_time_parents]);
+            renderChart('chart7', '新入生ご本人様の説明時間', ['平均'], [data.fell_time_students]);
+            renderChart('chart8', '保護者の方の説明時間', ['平均'], [data.fell_time_parents]);
         }
     } catch (error) {
         console.error('通信エラー：', error);
