@@ -48,8 +48,16 @@ body {
 .main-view { flex: 1; padding: 20px; overflow-y: auto; }
 
 .chart-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* 各グループ（chart1, chart2...）：横に2列並べる */
+.chart1, .chart2, .chart3 {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2列表示 */
+    flex-wrap: wrap; /* 画面幅が狭い時に折り返す */
+    grid-template-columns: repeat(2, 1fr); /* 2列指定 */
     gap: 20px;
 }
 
@@ -59,4 +67,6 @@ body {
     border: 1px solid #ddd;
     border-radius: 8px;
     height: 350px;
+    flex: 1 1 calc(50% - 20px); /* 幅を約50%に設定 */
+    min-width: 300px; /* 狭くなりすぎないように */
 }
