@@ -23,6 +23,7 @@ async function uploadData() {
             document.getElementById('display-file_name').innerText = data.file_name;
             document.getElementById('display_students_total').innerText = data.students_total;
             document.getElementById('display_parents_total').innerText = data.parents_total;
+            document.getElementById('display_satisfaction').innerText = data.satisfaction.toFixed(3);
 
             // chart1: 新入生と保護者の「合計」を並べる
             renderChart('chart1', ['合計'], [
@@ -87,6 +88,18 @@ async function uploadData() {
                     label: '保護者',
                     data: data.good_point_data_parents,
                     color: 'rgba(255, 99, 132, 0.5)' // 明るいピンク
+                }
+            ]);
+            renderChart('chart5', data.good_point_labels, [
+                {
+                    label: '一人暮らし予定',
+                    data: data.good_point_data_living_alone,
+                    color: 'rgba(255, 159, 64, 0.5)' // 明るいオレンジ
+                },
+                {
+                    label: '実家通学予定',
+                    data: data.good_point_data_living_home,
+                    color: 'rgba(54, 162, 235, 0.5)' // 明るいブルー
                 }
             ]);
         }

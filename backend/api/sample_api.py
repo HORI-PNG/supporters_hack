@@ -56,31 +56,64 @@ def upload_file():
         ]
 
         # 2. 全体、新入生、保護者それぞれのカウント関数
+        # 1. 時間の集計（パーセント化）
         def time_get_counts(target_df):
-            counts = target_df['説明時間はいかがでしたか。'].value_counts().to_dict()
-            # 短い・ちょうど良い・長いが0件でも必ずリストに含まれるように整理
-            return [int(counts.get(label, 0)) for label in time_labels]
+            # 該当列の有効回答（空欄以外）を取得
+            series = target_df['説明時間はいかがでしたか。'].dropna()
+            
+            # 分母（有効回答数）を計算
+            total = len(series)
+            
+            if total == 0:
+                return [0] * len(time_labels)
+
+            counts = series.value_counts().to_dict()
+            
+            # (該当数 / 全体数) * 100 でパーセント計算
+            return [int((counts.get(label, 0) / total) * 100) for label in time_labels]
         
-        # 2. カンマ区切りのデータをバラバラにしてカウントする関数
+
+        # 2. よかった点・全体/属性別（パーセント化）
         def good_point_get_counts(target_df):
-            # 列名が正しいか確認してください
             col_name = 'よかった、ためになった説明を教えてください'
             if col_name not in target_df.columns:
                 return [0] * len(good_point_labels)
 
-            # ① 該当列を取得し、空行を除外して文字列型に変換
+            # 分母は「その属性の総人数」にします（例：新入生が100人いて80人が選んだら80%）
+            total_people = len(target_df)
+            
+            if total_people == 0:
+                return [0] * len(good_point_labels)
+
             series = target_df[col_name].dropna().astype(str)
-            
-            # ② カンマ（とそれに続く空白）で分割して、各要素を独立した行に展開(explode)
-            # 正規表現 r',\s*' を使うことで、「,」のみの場合と「, 」（カンマ＋スペース）の両方に対応できます
             all_answers = series.str.split(r',\s*').explode()
-            
-            # ③ 前後の余計な空白を削除してから集計し、辞書形式にする
             counts = all_answers.str.strip().value_counts().to_dict()
             
-            # 定義した labels の順番に数値を並べてリストを返す
-            return [int(counts.get(label, 0)) for label in good_point_labels]
-         # 新入生と保護者のデータフレームを分割
+            return [int((counts.get(label, 0) / total_people) * 100) for label in good_point_labels] 
+
+
+        # 3. よかった点・居住形態別（パーセント化）
+        def good_point_get_counts_by_living_status(target_df, target_status):
+            col_name_point = 'よかった、ためになった説明を教えてください'
+            col_name_living = '一人暮らし予定か実家通学予定かお答えください'
+
+            if col_name_point not in target_df.columns or col_name_living not in target_df.columns:
+                return [0] * len(good_point_labels)
+
+            # まず条件で絞り込む
+            subset = target_df[target_df[col_name_living] == target_status]
+            
+            # 分母はこの条件（一人暮らし等）に当てはまる人の総数
+            total_people = len(subset)
+
+            if total_people == 0:
+                return [0] * len(good_point_labels)
+
+            series = subset[col_name_point].dropna().astype(str)
+            all_answers = series.str.split(r',\s*').explode()
+            counts = all_answers.str.strip().value_counts().to_dict()
+
+            return [int((counts.get(label, 0) / total_people) * 100) for label in good_point_labels]
         
         students_df = df[df['0'] == '新入生ご本人様']
         parents_df = df[df['0'] == '保護者様']
@@ -97,6 +130,8 @@ def upload_file():
             'good_point_data_all': good_point_get_counts(df),
             'good_point_data_students': good_point_get_counts(students_df),
             'good_point_data_parents': good_point_get_counts(parents_df),
+            'good_point_data_living_alone': good_point_get_counts_by_living_status(df, '一人暮らし予定'),
+            'good_point_data_living_home': good_point_get_counts_by_living_status(df, '実家通学予定'),
             'students_total': int(students_total) if pd.notna(students_total) else 0,
             'parents_total': int(parents_total) if pd.notna(parents_total) else 0,
             'satisfaction': float(satisfaction) if pd.notna(satisfaction) else 0.0,
